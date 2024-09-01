@@ -1,0 +1,44 @@
+<div class="search-container">
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Search for GIFs</mat-label>
+    <input
+      matInput
+      [(ngModel)]="searchTerm"
+      placeholder="Search"
+    />
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" (click)="searchGifs()">Search</button>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Results per page</mat-label>
+    <input
+      matInput
+      [matAutocomplete]="auto"
+      [(ngModel)]="resultsPerPage"
+      placeholder="Select limit"
+    />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLimitChange($event)">
+      <mat-option *ngFor="let option of limitOptions" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+
+<mat-grid-list cols="4" rowHeight="1:1" gutterSize="16px" class=md-margin>
+  <mat-grid-tile *ngFor="let gif of gifs">
+    <mat-card class="gif-card" outlined>
+      <img mat-card-image [src]="gif.images.fixed_height.url" [alt]="gif.title" />
+      <mat-card-content>
+        <p>{{ gif.title }}</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+<div class="pagination-controls">
+  <button mat-flat-button color="primary" (click)="prevPage()" [disabled]="!hasPrevPage">Previous</button>
+  <button mat-flat-button color="primary" (click)="nextPage()" [disabled]="!hasNextPage">Next</button>
+</div>
